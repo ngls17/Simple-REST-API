@@ -1,9 +1,8 @@
-from __init__ import app, api, jwt
-
 import datetime
 
 from flask_jwt import current_identity
 
+from __init__ import app, api, jwt
 from resources.user import UserRegister, GetUsers, UserActivity
 from resources.post import Post
 from resources.like import Like
@@ -20,7 +19,9 @@ api.add_resource(Analytics, '/analytics')
 @app.before_first_request
 def create_tables():
     db.create_all()
-
+    #creating initial user for testing
+    start_user = UserModel('user1', 'abcxyz')
+    start_user.save_to_db()
 
 @app.after_request
 def save_request_date(response):

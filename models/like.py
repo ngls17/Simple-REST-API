@@ -1,6 +1,8 @@
-from db import db
-from flask_jwt import current_identity
 import datetime
+
+from flask_jwt import current_identity
+
+from db import db
 
 
 class LikeModel(db.Model):

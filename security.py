@@ -1,6 +1,8 @@
+import datetime
+
 from werkzeug.security import safe_str_cmp
 from models.user import UserModel
-import datetime
+
 from db import db
 
 

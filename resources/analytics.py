@@ -1,9 +1,12 @@
-from flask_restful import Resource, reqparse
-from models.like import LikeModel
-from flask_jwt import jwt_required, current_identity
-from db import db
-from utils import daterange
 import datetime
+from utils import daterange
+
+from flask_restful import Resource, reqparse
+from flask_jwt import jwt_required, current_identity
+
+from models.like import LikeModel
+from db import db
+
 
 
 class Analytics(Resource):
