@@ -7,7 +7,9 @@ from resources.user import UserRegister, GetUsers, UserActivity
 from resources.post import Post
 from resources.like import Like
 from resources.analytics import Analytics
+from resources.stat_for_bot import NumberOfUsers, MaxPostsPerUser, MaxLikesPerUser
 from models.user import UserModel
+
 
 api.add_resource(UserRegister, '/register')
 api.add_resource(GetUsers, '/users')
@@ -15,13 +17,17 @@ api.add_resource(UserActivity, '/user/activity/<string:username>')
 api.add_resource(Post, '/post/<int:_id>', '/post')
 api.add_resource(Like, '/like/<int:id_post>')
 api.add_resource(Analytics, '/analytics')
+api.add_resource(NumberOfUsers, '/number_of_users')
+api.add_resource(MaxPostsPerUser, '/max_posts_per_user')
+api.add_resource(MaxLikesPerUser, '/max_likes_per_user')
 
 @app.before_first_request
 def create_tables():
     db.create_all()
     #creating initial user for testing
-    start_user = UserModel('user1', 'abcxyz')
-    start_user.save_to_db()
+    if not UserModel.find_by_username('test_user'):
+        start_user = UserModel('test_user', 'abcxyz')
+        start_user.save_to_db()
 
 @app.after_request
 def save_request_date(response):

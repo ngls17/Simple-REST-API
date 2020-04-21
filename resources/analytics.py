@@ -22,6 +22,7 @@ class Analytics(Resource):
                         help="This field cannot be blank."
                         )
 
+    @jwt_required()
     def get(self):
         data = Analytics.parser.parse_args()
         likes = db.session.query(LikeModel.date_created, db.func.count(LikeModel.date_created)).filter(
