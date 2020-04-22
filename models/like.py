@@ -33,3 +33,7 @@ class LikeModel(db.Model):
     @classmethod
     def count_post_likes(cls, id_post):
         return cls.query.filter_by(id_post=id_post).count()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()

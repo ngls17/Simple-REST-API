@@ -1,3 +1,4 @@
+import datetime
 from flask_restful import Resource
 from flask_jwt import jwt_required, current_identity
 
@@ -9,7 +10,7 @@ from db import db
 class Like(Resource):
 
     @jwt_required()
-    def post(self, id_post):
+    def put(self, id_post):
         post = PostModel.find_by_id(id_post)
         if not post:
             return {"message": "Post does not exist"}, 400
@@ -18,7 +19,10 @@ class Like(Resource):
             like = LikeModel(id_post)
             like.save_to_db()
             return {"message": "Post liked"}, 201
-        return {"message": "Post already liked"}, 400
+        else:
+            liked.date_created = datetime.datetime.now()
+            return {"message": "Post liked again"}, 200
+        return {"message": "Error"}, 400
 
     @jwt_required()
     def get(self, id_post):
@@ -39,3 +43,13 @@ class Like(Resource):
             db.session.commit()
             return {"message": "Post unliked"}, 201
         return {"message": "Post not liked yet"}, 400
+
+
+class Likes(Resource):
+    @jwt_required()
+    def get(self):
+        return [{"id": like.id,
+                 "id_post": like.id_post,
+                 "id_user": like.id_user,
+                 "date_created": like.date_created.strftime('%Y-%m-%d %H:%M')}
+                for like in LikeModel.find_all()], 200

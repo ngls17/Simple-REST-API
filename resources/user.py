@@ -16,6 +16,7 @@ class UserRegister(Resource):
                         help="This field cannot be blank."
                         )
 
+    @jwt_required()
     def post(self):
         data = UserRegister.parser.parse_args()
 
@@ -28,7 +29,7 @@ class UserRegister(Resource):
         return {"message": "User created successfully."}, 201
 
 
-class GetUsers(Resource):
+class Users(Resource):
     @jwt_required()
     def get(self):
         print(current_identity)
