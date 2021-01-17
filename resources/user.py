@@ -30,7 +30,6 @@ class UserRegister(Resource):
 
 
 class Users(Resource):
-    @jwt_required()
     def get(self):
         print(current_identity)
         return [{"username": user.username, "password": user.password} for user in UserModel.find_all()], 200
